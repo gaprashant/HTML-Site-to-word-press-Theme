@@ -1,0 +1,392 @@
+                        HTML  to word press Theme
+D:\wamp\www\YourProject Folder\wp-content\themes\ThemeName
+Folders
+1.	Functions.php
+2.	Header .php
+3.	Index.php
+4.	Sidebar.php
+5.	Page.php
+6.	Footer.php
+Code functions.php
+//Enqueue styles and scripts
+
+
+function ThemeName_scripts() {
+	wp_enqueue_style( 'ThemeName-style', get_stylesheet_uri() );
+	wp_enqueue_script( 'ThemeName-jquery', get_template_directory_uri() . '/js/jquery.js');
+	wp_enqueue_script( 'ThemeName-slider', get_template_directory_uri() . '/js/slider.js');
+	wp_enqueue_script( 'ThemeName-superfish', get_template_directory_uri() . '/js/superfish.js');
+	wp_enqueue_script( 'ThemeName-custom', get_template_directory_uri() . '/js/custom.js');
+}
+add_action( 'wp_enqueue_scripts', 'ThemeName_scripts' );
+
+// Add WordPress Menu
+// This theme uses wp_nav_menu() in one location.
+	register_nav_menus( array(
+		'primary' => esc_html__( 'Primary', 'ThemeName' ),
+	) );
+// Register Widgets
+//Register Sidebar Widget
+/**
+ * Register widget area.
+ *
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ */
+function ThemeName_widgets_init() {
+	register_sidebar( array(
+		'name'          => esc_html__( 'Sidebar', 'ThemeName' ),
+		'id'            => 'sidebar-1',
+		'description'   => esc_html__( 'Add widgets here.', 'ThemeName' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
+}
+add_action( 'widgets_init', 'ThemeName_widgets_init' );
+
+
+
+
+
+2	Header .php
+
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ThemeName - Free CSS Template by ZyPOP</title>
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+
+<!--
+ThemeName, a free CSS web template by ZyPOP (zypopwebtemplates.com/)
+
+Download: http://zypopwebtemplates.com/
+
+License: Creative Commons Attribution
+//-->
+<?php wp_head(); ?>
+</head>
+<body>
+<div id="container" class="width">
+
+    <header> 
+	<div class="width">
+
+    		<h1><a href="/">ThemeName</a></h1>
+<!-- Top Navigation -->
+		<nav>
+      
+<?php wp_nav_menu(array('theme_location' => 'primary' , 'container_class' => 'fullmenu'));?>
+
+	
+    			<!--<ul class="sf-menu dropdown">
+
+			
+        			<li class="selected"><a href="/ThemeName/">Home</a></li>
+
+            			<li>
+
+					<a href="examples.html">Style examples</a>
+            			
+					<ul>
+                				<li><a href="three-column.html">Three Column</a></li>
+						<li><a href="one-column.html">One Column</a></li>
+                    				<li><a href="text.html">Text page</a></li>
+                			</ul>
+
+            			</li>
+
+	     			<li><a href="#">Services</a></li>
+            
+				<li>
+
+					<a href="#">Products</a>
+            				
+					<ul>
+                				<li><a href="#">Product One</a></li>
+                   				<li><a href="#">Product Two</a></li>
+                   				<li><a href="#">Product Three</a></li>
+                			</ul>
+
+            			</li>
+            
+				<li><a href="#">Contact</a></li>
+       			</ul>-->
+
+			
+			<div class="clear"></div>
+    		</nav><!-- End Top Navigation -->
+       	</div>
+
+	<div class="clear"></div>
+
+       
+    </header>
+<!-- ***********************EndHeader******************************************* -->
+
+3.    Index.php
+<?php get_header(); ?>
+<!-- ****************************************************************Begin Content******************************************************* -->
+    <div id="intro">
+
+	<div class="width">
+      
+		<div class="intro-content">
+	
+                    <h2>Tristique sem vitae metus ornare </h2>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                                  	
+			<p><a href="#" class="button button-slider"><i class="fa fa-gbp"></i> Lorem ipsum dolor</a>
+							<a href="#" class="button button-reversed button-slider"><i class="fa fa-info"></i> Consectetuer adipiscing</a></p>
+                    
+
+            	</div>
+                
+            </div>
+            
+
+	</div>
+
+    <div id="body" class="width">
+
+
+
+		<section id="content" class="two-column with-right-sidebar">	
+			
+			<?php if ( have_posts() ) : ?>
+	<?php while ( have_posts() ) : the_post(); ?>
+	<article>
+	<h2><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+				
+		<?php the_excerpt(); ?>
+		</article>
+        <p><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"class="button">Read More</a></p>
+		
+	<?php endwhile; ?>
+<?php else: ?>
+	<h2>Can't Find Post</h2>
+	<p>Sorry, we were unable to find the page you requested.</p>
+<?php endif; ?>
+
+        </section>
+<!-- *******************************************************************End Content****************************************************************** -->
+<?php get_sidebar(); ?>
+<div class="clear"></div>
+    </div><!-- End #body -->
+<?php get_footer(); ?>
+</div><!-- End #container -->
+<?php wp_footer(); ?>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+4.	 Sidebar.php
+
+
+<?php
+
+   if ( ! is_active_sidebar( 'sidebar-1' ) ) {
+	return;
+}
+?>
+
+<aside id="secondary" class="widget-area sidebar big-sidebar right-sidebar" role="complementary">
+	<?php dynamic_sidebar( 'sidebar-1' ); ?>
+</aside>
+
+        <!--<aside class="sidebar big-sidebar right-sidebar">
+	
+	
+            <ul>	
+               <li class="color-bg">
+                    <h4>Blocklist</h4>
+                    <ul class="blocklist">
+                        <li><a class="selected" href="index.html">Home Page</a></li>
+                        <li><a href="examples.html">Style Examples</a>
+				<ul>
+					<li><a href="three-column.html">Three Column</a></li>
+					<li><a href="one-column.html">One column / no sidebar</a></li>
+					<li><a href="text.html">Text / left sidebar</a></li>
+				</ul>
+			</li>
+                        <li><a href="three-column.html">Three column layout example</a></li>
+                        <li><a href="#">Sed aliquam libero ut velit bibendum</a></li>
+                        <li><a href="#">Maecenas condimentum velit vitae</a></li>
+                    </ul>
+                </li>
+                
+               
+
+		
+               
+                <li>
+			<h4>News</h4>
+			<ul class="newslist">
+				<li>
+					<p><span class="newslist-date">Jul 21</span>
+			                   Quisque hendrerit lorem sit amet dui viverra dictum. Phasellus imperdiet magna sit amet arcu tristique ultricies ut in dui.</p>
+				</li>
+
+<li>
+					<p><span class="newslist-date">May 09</span>
+			                   Mauris et felis semper, congue dui ac, iaculis ipsum. Fusce non rhoncus risus, quis luctus nisl. Donec vitae velit tincidunt, tincidunt felis eu, suscipit nibh. </p>
+ 
+				</li>
+			</ul>
+                </li>
+	
+   		<li>
+                    <h4>Maecenas varius</h4>
+                    <ul>
+				<li><a href="#">Nam cursus nisi nec viverra iaculis</a></li>
+				<li><a href="#">Integer lacinia risus id nibh vestibulum</a></li>
+				<li><a href="#">Mauris eget ante ut elit rutrum ornare </a></li>
+				<li><a href="#">Vivamus quis orci et suscipit consequa</a></li>
+				<li><a href="#">Nam eget tellus adipiscin hendrerit</a></li>
+			</ul>
+                </li>
+                
+            </ul>
+		
+        </aside>-->
+<!-- ****************************************************************************End Sidebar***************************************************** -->
+
+
+
+
+5.	Page.php
+<?php get_header(); ?>
+<!-- ****************************************************************Begin Content******************************************************* -->
+    <div id="intro">
+
+	<div class="width">
+      
+		<div class="intro-content">
+	
+                    <h2>Tristique sem vitae metus ornare </h2>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                                  	
+			<p><a href="#" class="button button-slider"><i class="fa fa-gbp"></i> Lorem ipsum dolor</a>
+							<a href="#" class="button button-reversed button-slider"><i class="fa fa-info"></i> Consectetuer adipiscing</a></p>
+                    
+
+            	</div>
+                
+            </div>
+            
+
+	</div>
+
+    <div id="body" class="width">
+
+
+
+		<section id="content" class="two-column with-right-sidebar">	
+			
+			<?php if ( have_posts() ) : ?>
+	<?php while ( have_posts() ) : the_post(); ?>
+	<article>
+	<h1><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h1>
+				
+		<?php the_content(); ?>
+		</article>
+        <p><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"class="button">Read More</a></p>
+		
+	<?php endwhile; ?>
+<?php else: ?>
+	<h2>Can't Find Post</h2>
+	<p>Sorry, we were unable to find the page you requested.</p>
+<?php endif; ?>
+
+        </section>
+<!-- *******************************************************************End Content****************************************************************** -->
+<?php get_sidebar(); ?>
+<div class="clear"></div>
+    </div><!-- End #body -->
+<?php get_footer(); ?>
+</div><!-- End #container -->
+<?php wp_footer(); ?>
+</body>
+</html>
+
+
+6.	Footer.php
+
+
+<!-- Begin Footer -->  
+   
+    <footer class="width">
+        <div class="footer-content">
+            <ul>
+            	<li><h4>Proin accumsan</h4></li>
+                <li><a href="#">Rutrum nulla a ultrices</a></li>
+                <li><a href="#">Blandit elementum</a></li>
+                <li><a href="#">Proin placerat accumsan</a></li>
+                <li><a href="#">Morbi hendrerit libero </a></li>
+                <li><a href="#">Curabitur sit amet tellus</a></li>
+            </ul>
+            
+            <ul>
+            	<li><h4>Condimentum</h4></li>
+                <li><a href="#">Curabitur sit amet tellus</a></li>
+                <li><a href="#">Morbi hendrerit libero </a></li>
+                <li><a href="#">Proin placerat accumsan</a></li>
+                <li><a href="#">Rutrum nulla a ultrices</a></li>
+                <li><a href="#">Cras dictum</a></li>
+            </ul>
+
+ 	    <ul>
+                <li><h4>Suspendisse</h4></li>
+                <li><a href="#">Morbi hendrerit libero </a></li>
+                <li><a href="#">Proin placerat accumsan</a></li>
+                <li><a href="#">Rutrum nulla a ultrices</a></li>
+                <li><a href="#">Curabitur sit amet tellus</a></li>
+                <li><a href="#">Donec in ligula nisl.</a></li>
+            </ul>
+            
+            <ul class="endfooter">
+            	<li><h4>Suspendisse</h4></li>
+                <li>Integer mattis blandit turpis, quis rutrum est. Maecenas quis arcu vel felis lobortis iaculis fringilla at ligula. Nunc dignissim porttitor dolor eget porta. <br /><br />
+
+<div class="social-icons">
+
+<a href="#"><i class="fa fa-facebook fa-2x"></i></a>
+
+<a href="#"><i class="fa fa-twitter fa-2x"></i></a>
+
+<a href="#"><i class="fa fa-youtube fa-2x"></i></a>
+
+<a href="#"><i class="fa fa-instagram fa-2x"></i></a>
+
+</div>
+
+</li>
+            </ul>
+            
+            <div class="clear"></div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; YourSite 2022. <a href="http://007worldisnotenough.com/">Free CSS Web Templates</a> by 007</p>
+         </div>
+    </footer>
+<!-- *******************************************************************End Footer***************************************************************** -->
+</div>
+</body>
+</html>
